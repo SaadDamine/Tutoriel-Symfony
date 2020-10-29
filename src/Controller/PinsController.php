@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Pin;
 use App\Repository\PinRepository;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\ORM\EntityManagerInterface;
-//use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PinsController extends AbstractController
 {
     /**
-     * @Route("/")
+     * @Route("/",methods={"GET"})
      */
     public function index(PinRepository $repo): Response
     {      
@@ -25,21 +27,29 @@ class PinsController extends AbstractController
     /**
      * @Route("/pins/create",methods={"GET","POST"})
      */
-    public function create(Request $request,EntityManagerInterface $em)
+    public function create(Request $request,EntityManagerInterface $em) : Response
     {
-        if($request->isMethod("POST")){
-            $data = $request->request->all();
+        $form = $this->createFormBuilder()
+        ->add('title',TextType::class)
+        ->add('description',TextareaType::class)
+        ->add('submit',SubmitType::class,['label' => 'Create Pin'])
+        ->getForm();
 
-            if($this->isCsrfTokenValid('pins.create',$data['_token'])){
-                $pin = new Pin;
-                $pin->setTitle($data['title']);
-                $pin->setDescription($data['description']);    
-                $em->persist($pin);
-                $em->flush();
-    
-            }
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $data = $form->getdata();
+
+            $pin = new Pin;
+            $pin->setTitle($data['title']);
+            $pin->setDescription($data['description']);    
+            $em->persist($pin);
+            $em->flush();
+
             return $this->redirectToRoute('app_pins_index');
         }
-        return $this->render('pins/create.html.twig');
+
+        return $this->render('pins/create.html.twig',['monFormulaire' => $form->createView()]);
+
     }
 }
