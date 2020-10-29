@@ -58,14 +58,8 @@ class PinsController extends AbstractController
     /**
      * @Route("/pins/{id}",methods={"GET"})
      */
-    public function show(PinRepository $repo,$id) : Response
+    public function show(Pin $pin) : Response
     {
-        $pin = $repo->find($id);
-
-        if(! $pin){
-            throw $this->createNotFoundException();
-        }
-
         return $this->render('pins/show.html.twig',['pin' => $pin]);
     }
 }
