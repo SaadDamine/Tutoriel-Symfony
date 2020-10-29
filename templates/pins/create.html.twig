@@ -1,7 +1,7 @@
 <h1>Create Pins</h1>
 
 <form method="POST">
-    
+    <input type="hidden" name="_token" value="{{csrf_token('pins.create')}}">
     <div>
         <label for="title">Title</label><br>
         <input type="text" id="title" name="title" required/>
