@@ -38,7 +38,7 @@ class PinsController extends AbstractController
                 $em->flush();
     
             }
-            return $this->redirect('/');
+            return $this->redirectToRoute('app_pins_index');
         }
         return $this->render('pins/create.html.twig');
     }
