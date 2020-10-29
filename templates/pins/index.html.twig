@@ -6,13 +6,16 @@
 <body>
 	<h1>
 		<a href="{{path('app_pins_create')}}">Create Pin</a>
-
+		
 		{% for pin in pins %}
 		<article>
 			<h1>{{pin.getTitle()}}</h1>
 			<p>{{pin.getDescription()}}</p>
 		</article>
+		{% else %}
+		<p>Sorry no pins yet</p>
 		{% endfor %}
+
 	</h1>
 </body>
 </html>
