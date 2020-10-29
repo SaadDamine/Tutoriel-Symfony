@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Pin;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\Entity;
+//use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,15 +16,18 @@ class PinsController extends AbstractController
      */
     public function index(EntityManagerInterface $em): Response
     {
-        $pin = new Pin;
+        /*$pin = new Pin;
         $pin->setTitle('Title 3');
         $pin->setDescription('Description 3');
 
         $em->persist($pin);
         $em->flush();
 
-    	//dd($pin);	
+        //dd($pin);	*/
+        
+        $repo = $em->getRepository(Pin::class);
+        $pins = $repo->findAll();
 
-        return $this->render('pins/index.html.twig');
+        return $this->render('pins/index.html.twig',['pins' => $pins]);
     }
 }

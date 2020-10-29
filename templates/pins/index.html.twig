@@ -4,6 +4,15 @@
 	<title></title>
 </head>
 <body>
+<h1>
+{% for pin in pins %}
+<article>
+<h1>{{pin.getTitle()}}</h1>
+<p>{{pin.getDescription()}}</p>
+</article>
 
+
+{% endfor %}
+</h1>
 </body>
 </html>
