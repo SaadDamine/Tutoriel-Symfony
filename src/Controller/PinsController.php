@@ -54,4 +54,13 @@ class PinsController extends AbstractController
         return $this->render('pins/create.html.twig',['monFormulaire' => $form->createView()]);
 
     }
+
+    /**
+     * @Route("/pins/{id}",methods={"GET"})
+     */
+    public function show(PinRepository $repo,$id) : Response
+    {
+        $pin = $repo->find($id);
+        return $this->render('pins/show.html.twig',['pin' => $pin]);
+    }
 }

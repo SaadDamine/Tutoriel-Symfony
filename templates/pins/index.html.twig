@@ -5,12 +5,15 @@
 </head>
 <body>
 	<h1>
+		{% set pins_count= pins|length%}
+
+		<p>All Pin {{pins_count}}</p>
 		<a href="{{path('app_pins_create')}}">Create Pin</a>
 		
 		{% for pin in pins %}
 		<article>
-			<h1>{{pin.getTitle()}}</h1>
-			<p>{{pin.getDescription()}}</p>
+			<h1>{{pin.title}}</h1>
+			<p>{{pin.description}}</p>
 		</article>
 		{% else %}
 		<p>Sorry no pins yet</p>
