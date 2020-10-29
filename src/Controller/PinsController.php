@@ -14,10 +14,15 @@ class PinsController extends AbstractController
      */
     public function index(): Response
     {
-    	$pin = new Pin;
+        $pin = new Pin;
+        $pin->setTitle('Title 1');
+        $pin->setDescription('Description 1');
 
-    	dump($pin);
-    	die;
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($pin);
+        $em->flush();
+    	//dd($pin);	
 
         return $this->render('pins/index.html.twig');
     }
